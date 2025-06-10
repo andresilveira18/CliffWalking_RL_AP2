@@ -196,5 +196,7 @@ with tabs[4]:
 
     for nome, arquivo in videos.items():
         st.markdown(f"### {nome}")
-        st.video(os.path.join("data", arquivo))
+        caminho_absoluto = os.path.join(os.path.dirname(__file__), "data", arquivo)
+        st.video(caminho_absoluto)
+
 
