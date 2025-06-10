@@ -18,13 +18,14 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Caminho dos arquivos
-df_total = pd.read_excel(r"data/Recompensas_Total.xlsx")
-erro_mc = np.load(r"data/erro_monte_carlo.npy")
-erro_mc_every = np.load(r"data/erro_monte_carlo_every.npy")
-erro_td = np.load(r"data/erro_td.npy")
-erro_sarsa = np.load(r"data/erro_sarsa.npy")
-erro_q = np.load(r"data/erro_q_learning.npy")
-erro_dqn = np.load(r"data/erro_dqn.npy")
+DATA_DIR = "data"
+df_total = pd.read_excel(os.path.join(DATA_DIR, "Recompensas_Total.xlsx"))
+erro_mc = np.load(os.path.join(DATA_DIR, "erro_monte_carlo.npy"))
+erro_mc_every = np.load(os.path.join(DATA_DIR, "erro_monte_carlo_every.npy"))
+erro_td = np.load(os.path.join(DATA_DIR, "erro_td.npy"))
+erro_sarsa = np.load(os.path.join(DATA_DIR, "erro_sarsa.npy"))
+erro_q = np.load(os.path.join(DATA_DIR, "erro_q_learning.npy"))
+erro_dqn = np.load(os.path.join(DATA_DIR, "erro_dqn.npy"))
 
 # Cores e nomes
 cores_alg = {
