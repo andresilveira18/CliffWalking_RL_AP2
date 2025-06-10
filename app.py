@@ -184,19 +184,23 @@ with tabs[3]:
 
 with tabs[4]:
     st.subheader("Episódio Greedy - Vídeos")
-    
-    videos = {
-        "Monte Carlo First-Visit": "Monte_Carlo.mp4",
-        "Monte Carlo Every-Visit": "Monte_Carlo_Every.mp4",
-        "TD(0)": "TD(0).mp4",
-        "SARSA": "SARSA.mp4",
-        "Q-Learning": "Q-Learning.mp4",
-        "DQN": "DQN.mp4"
+
+    gifs = {
+        "Monte Carlo First-Visit": "Monte_Carlo.gif",
+        "Monte Carlo Every-Visit": "Monte_Carlo_Every.gif",
+        "TD(0)": "TD(0).gif",
+        "SARSA": "SARSA.gif",
+        "Q-Learning": "Q-Learning.gif",
+        "DQN": "DQN.gif"
     }
 
-    for nome, arquivo in videos.items():
+    for nome, arquivo in gifs.items():
         st.markdown(f"### {nome}")
-        caminho_absoluto = os.path.join(os.path.dirname(__file__), "data", arquivo)
-        st.video(caminho_absoluto)
+        caminho_gif = os.path.join("data", arquivo)
+
+        if os.path.exists(caminho_gif):
+            st.image(caminho_gif)
+        else:
+            st.warning(f"GIF não encontrado: {arquivo}")
 
 
