@@ -22,23 +22,21 @@ DATA_DIR = "data"
 df_total = pd.read_excel(os.path.join(DATA_DIR, "Recompensas_Total.xlsx"))
 erro_mc = np.load(os.path.join(DATA_DIR, "erro_monte_carlo.npy"))
 erro_mc_every = np.load(os.path.join(DATA_DIR, "erro_monte_carlo_every.npy"))
-erro_td = np.load(os.path.join(DATA_DIR, "erro_td.npy"))
 erro_sarsa = np.load(os.path.join(DATA_DIR, "erro_sarsa.npy"))
 erro_q = np.load(os.path.join(DATA_DIR, "erro_q_learning.npy"))
 erro_dqn = np.load(os.path.join(DATA_DIR, "erro_dqn.npy"))
 
-# Cores e nomes
+# Cores e nomes (sem TD(0))
 cores_alg = {
     "Monte Carlo First-Visit": "#AB63FA",
     "Monte Carlo Every-Visit": "#FFA15A",
-    "TD(0)": "#EF553B",
     "SARSA": "#00CC96",
     "Q-Learning": "#636EFA",
     "DQN": "#19D3F3"
 }
 ordem_alg = list(cores_alg.keys())
 
-# Tabs na ordem solicitada
+# Tabs
 tabs = st.tabs([
     "Boxplot da Recompensa por Algoritmo",
     "Recompensa Média Suavizada por Episódio",
@@ -114,7 +112,6 @@ with tabs[2]:
     df_erros = pd.DataFrame({
         "Monte Carlo First-Visit": erro_mc,
         "Monte Carlo Every-Visit": erro_mc_every,
-        "TD(0)": erro_td,
         "SARSA": erro_sarsa,
         "Q-Learning": erro_q,
         "DQN": erro_dqn
@@ -153,12 +150,12 @@ with tabs[2]:
 
 with tabs[3]:
     st.subheader("Erro Médio Estimado por Episódio")
-    nomes = ["Monte Carlo Every-Visit", "Monte Carlo First-Visit", "TD(0)", "SARSA", "Q-Learning", "DQN"]
-    erros = [erro_mc_every, erro_mc, erro_td, erro_sarsa, erro_q, erro_dqn]
+    nomes = ["Monte Carlo Every-Visit", "Monte Carlo First-Visit", "SARSA", "Q-Learning", "DQN"]
+    erros = [erro_mc_every, erro_mc, erro_sarsa, erro_q, erro_dqn]
     fig4 = go.Figure()
     for nome in nomes:
-        vetor = dict(zip(nomes, erros))[nome]
-        fig4.add_trace(go.Scatter(y=vetor, mode='lines', name=nome, line=dict(color=cores_alg[nome], width=2)))
+        fig4.add_trace(go.Scatter(y=erros[nomes.index(nome)], mode='lines', name=nome,
+                                  line=dict(color=cores_alg[nome], width=2)))
     fig4.update_layout(
         template="plotly_dark",
         title="Erro Médio Estimado por Episódio",
@@ -184,23 +181,17 @@ with tabs[3]:
 
 with tabs[4]:
     st.subheader("Episódio Greedy - Vídeos")
-
     gifs = {
         "Monte Carlo First-Visit": "Monte_Carlo.gif",
         "Monte Carlo Every-Visit": "Monte_Carlo_Every.gif",
-        "TD(0)": "TD(0).gif",
         "SARSA": "SARSA.gif",
         "Q-Learning": "Q-Learning.gif",
         "DQN": "DQN.gif"
     }
-
     for nome, arquivo in gifs.items():
         st.markdown(f"### {nome}")
         caminho_gif = os.path.join("data", arquivo)
-
         if os.path.exists(caminho_gif):
             st.image(caminho_gif)
         else:
             st.warning(f"GIF não encontrado: {arquivo}")
-
-
